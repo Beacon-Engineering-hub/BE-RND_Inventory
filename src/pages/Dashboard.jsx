@@ -84,8 +84,10 @@ export default function Dashboard() {
                 {data.recentItems.map(item => {
                   let imgUrl = null;
                   if (item.image_url) {
-                    const match = item.image_url.match(new RegExp('/d/(.+?)/')) || item.image_url.match(new RegExp('\\\\?id=(.+?)(&|$)'));
-                    imgUrl = match ? `https://lh3.googleusercontent.com/d/${match[1] || match[2]}` : item.image_url;
+                    const dMatch = item.image_url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                    const idMatch = item.image_url.match(/[\?&]id=([a-zA-Z0-9_-]+)/);
+                    const id = (dMatch && dMatch[1]) || (idMatch && idMatch[1]);
+                    imgUrl = id ? `https://drive.google.com/thumbnail?id=${id}&sz=w1000` : item.image_url;
                   }
                   return (
                     <tr key={item.id}>

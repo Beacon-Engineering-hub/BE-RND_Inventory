@@ -24,10 +24,11 @@ export default function ItemDetail() {
 
   const parseDriveLink = (url) => {
     if (!url) return null;
-    const match = url.match(new RegExp('/d/(.+?)/')) || url.match(new RegExp('\\\\?id=(.+?)(&|$)'));
-    if (match) {
-      const id = match[1] || match[2];
-      return `https://lh3.googleusercontent.com/d/${id}`;
+    const dMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    const idMatch = url.match(/[\?&]id=([a-zA-Z0-9_-]+)/);
+    const id = (dMatch && dMatch[1]) || (idMatch && idMatch[1]);
+    if (id) {
+      return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
     }
     return url;
   };
